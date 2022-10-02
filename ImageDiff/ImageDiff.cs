@@ -6,9 +6,9 @@ namespace ImageDiff
 {
     public class ImageDiff
     {
-        public string baselinePath;
-        public string comparisonPath;
-        public string resultPath;
+        //public string baselinePath;
+        //public string comparisonPath;
+        //public string resultPath;
         public bool displayingBaseline;
         public List<List<Pixel>> comparisonPixels = new List<List<Pixel>>();
         public List<List<Pixel>> baselinePixels = new List<List<Pixel>>();
@@ -16,12 +16,14 @@ namespace ImageDiff
         public int searchWidth = 50;
         public int rowBuffer = 10;
         public int columnBuffer = 10;
-        private int traversalBorder = 2;
+        public int traversalBorder = 2;
         public Logger logger;
         public ImagePixels scanning;
         bool LoggingOn = false;
         string currentScannerImage = "";
         ComparisonLevel ComparisonLevel;
+
+        
         public ImagePixels IdentifyMismatchBounds2(int rowStart, int columnStart)
         {
             List<Pixel> mismatched = new List<Pixel>() { comparisonPixels[rowStart][columnStart] };
@@ -55,20 +57,38 @@ namespace ImageDiff
             }
             mismatched = NavigateMismatched(mismatched, ToReview, out borderPixels);
             Pixel borderPix = borderPixels[0];
-            bool allBorderPixelsTheSame = true;
+            bool allBorderPixelsTheSame = false;
+            Dictionary<string, int> counts = new Dictionary<string, int>();
             foreach (var pixel in borderPixels)
             {
-                if (pixel.IsMatch(borderPix))
+                var key = $"{pixel.pixel.R}_{pixel.pixel.G}_{pixel.pixel.B}";
+                if (counts.ContainsKey(key))
                 {
-                    allBorderPixelsTheSame = false;
-                    break;
+                    counts[key]++;
+                }
+                else{
+                    counts.Add(key, 1);
                 }
             }
-
+            var threshold = borderPixels.Count * 0.8;
+            if (counts.Any(x => x.Value >= threshold))
+            {
+                var key = counts.First(x => x.Value >= threshold);
+                var vals= key.Key.Split("_");
+                borderPix.pixel.R = byte.Parse(vals[0]);
+                borderPix.pixel.G = byte.Parse(vals[1]);
+                borderPix.pixel.B = byte.Parse(vals[2]);
+                allBorderPixelsTheSame = true;
+            }
             var startRow = mismatched[0].Row;
             var endRow = mismatched[0].Row;
             var startColumn = mismatched[0].Column;
             var endColumn = mismatched[0].Column;
+            var shouldNotHightlight = mismatched.Any(x => x.pixel.B == borderPix.pixel.B && x.pixel.R == borderPix.pixel.R && x.pixel.G == borderPix.pixel.G);
+            if (shouldNotHightlight && allBorderPixelsTheSame)
+            {
+                var d = "";
+            }
             foreach (var pixel in mismatched)
             {
                 if (pixel.Row < startRow) startRow = pixel.Row;
@@ -84,12 +104,18 @@ namespace ImageDiff
                 {
                     if (allBorderPixelsTheSame)
                     {
-                        if (comparisonPixels[row][col].IsMatch(borderPix))
+                        if (comparisonPixels[row][col].IsMatch(borderPix, 20))
                         {
                             comparisonPixels[row][col].isBorderPixel = true;
                         }
+                        else
+                        {
+                            var dd = "";
+                        }
                     }
-                    else { comparisonPixels[row][col].isBorderPixel = false; }
+                    else { 
+                        comparisonPixels[row][col].isBorderPixel = false; 
+                    }
                     baseRow.Add(comparisonPixels[row][col]);//swapped row/col
                 }
                 mismatchRegion.AddRow(baseRow);
@@ -143,7 +169,7 @@ namespace ImageDiff
                             else
                             {
                                 borderPixels.Add(scanning.Rows[row].Pixels[column]);
-                                scanning.Rows[row].Pixels[column].pixel = Color.Navy;
+                                //scanning.Rows[row].Pixels[column].pixel = Color.Navy;
                                 //LogScanner();
                             }
                         }
@@ -430,6 +456,11 @@ namespace ImageDiff
 
         public Image<Rgba32> DoCompare(byte[] newImage, byte[] baselineImage, out bool isDifferent)
         {
+            comparisonPixels = new List<List<Pixel>>();
+            baselinePixels = new List<List<Pixel>>();
+            bool LoggingOn = false;
+            currentScannerImage = "";
+
             bool different = false;
             SixLabors.ImageSharp.Image<Rgba32> comparisonImage = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load(newImage);
             SixLabors.ImageSharp.Image<Rgba32> baseline = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load(baselineImage);
@@ -582,6 +613,10 @@ namespace ImageDiff
                     // but using pixelRow.Length allows the JIT to optimize away bounds checks:
                     for (int column = 0; column < pixelRow.Length; column++)
                     {
+                        if (comparisonPixels[rowIndex][column].isBorderPixel)
+                        {
+                            var s = "";
+                        }
                         if (comparisonPixels[rowIndex][column].needsHighlight && !comparisonPixels[rowIndex][column].isBorderPixel)
                         {
                             ref Rgba32 pixel = ref pixelRow[column];

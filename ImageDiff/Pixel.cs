@@ -26,21 +26,21 @@ namespace ImageDiff
             this.needsHighlight = needsHighlight;
         }
 
-        public bool IsMatch(Pixel pixel)
+        public bool IsMatch(Pixel pixel, int threshold = 10)
         {
             if(pixel == null) { return false; }
             var rDif = pixel.pixel.R - this.pixel.R;
             var gDif = pixel.pixel.G - this.pixel.G;
             var bDif = pixel.pixel.B - this.pixel.B;
-            if (! (-10<rDif && rDif<10))
+            if (! (-threshold < rDif && rDif< threshold))
             {
                 return false;
             }
-            if (!(-10 < gDif && gDif < 10))
+            if (!(-threshold < gDif && gDif < threshold))
             {
                 return false;
             }
-            if (!(-10 < bDif && bDif < 10))
+            if (!(-threshold < bDif && bDif < threshold))
             {
                 return false;
             }
