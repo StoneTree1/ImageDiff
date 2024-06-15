@@ -44,7 +44,7 @@ namespace ImageDiff
             //img.Mutate(x => x.BackgroundColor(SixLabors.ImageSharp.Color.White));
 
             //img.Mutate(x => x.DrawText(message, family.CreateFont(20, SixLabors.Fonts.FontStyle.Regular), SixLabors.ImageSharp.Color.Black, new SixLabors.ImageSharp.PointF(10, 10)));
-            Image<Rgba32> targetImage = new Image<Rgba32>(img.Size().Width, img.Size().Height);
+            Image<Rgba32> targetImage = new Image<Rgba32>(img.Size.Width, img.Size.Height);
             List<byte> imageBytes = new List<byte>();
             img.ProcessPixelRows(comparisonAccessor =>
             {

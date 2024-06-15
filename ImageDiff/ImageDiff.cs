@@ -456,197 +456,205 @@ namespace ImageDiff
 
         public Image<Rgba32> DoCompare(byte[] newImage, byte[] baselineImage, out bool isDifferent)
         {
-            comparisonPixels = new List<List<Pixel>>();
-            baselinePixels = new List<List<Pixel>>();
-            bool LoggingOn = false;
-            currentScannerImage = "";
-
-            bool different = false;
-            SixLabors.ImageSharp.Image<Rgba32> comparisonImage = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load(newImage);
-            SixLabors.ImageSharp.Image<Rgba32> baseline = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load(baselineImage);
-            scanning = new ImagePixels();
-            comparisonImage.ProcessPixelRows(comparisonAccessor =>
+            try
             {
-                for (int rowIndex = 0; rowIndex < comparisonAccessor.Height; rowIndex++)
+                comparisonPixels = new List<List<Pixel>>();
+                baselinePixels = new List<List<Pixel>>();
+                bool LoggingOn = false;
+                currentScannerImage = "";
+
+                bool different = false;
+                SixLabors.ImageSharp.Image<Rgba32> comparisonImage = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load<Rgba32>(newImage);
+                SixLabors.ImageSharp.Image<Rgba32> baseline = (SixLabors.ImageSharp.Image<Rgba32>)SixLabors.ImageSharp.Image<Rgba32>.Load<Rgba32>(baselineImage);
+                scanning = new ImagePixels();
+                comparisonImage.ProcessPixelRows(comparisonAccessor =>
                 {
-                    List<Pixel> row = new List<Pixel>();
-                    Span<Rgba32> pixelRow = comparisonAccessor.GetRowSpan(rowIndex);
-                    scanning.AddRow(pixelRow);
-                    // pixelRow.Length has the same value as accessor.Width,
-                    // but using pixelRow.Length allows the JIT to optimize away bounds checks:
-                    for (int column = 0; column < pixelRow.Length; column++)
+                    for (int rowIndex = 0; rowIndex < comparisonAccessor.Height; rowIndex++)
                     {
-                        row.Add(new Pixel(pixelRow[column], rowIndex, column));
-                    }
-                    comparisonPixels.Add(row);
-                }
-            });
-            baseline.ProcessPixelRows(baselineAccessor =>
-            {
-                for (int rowIndex = 0; rowIndex < baselineAccessor.Height; rowIndex++)
-                {
-                    List<Pixel> row = new List<Pixel>();
-                    Span<Rgba32> pixelRow = baselineAccessor.GetRowSpan(rowIndex);
-
-                    // pixelRow.Length has the same value as accessor.Width,
-                    // but using pixelRow.Length allows the JIT to optimize away bounds checks:
-                    for (int column = 0; column < pixelRow.Length; column++)
-                    {
-                        row.Add(new Pixel(pixelRow[column], rowIndex, column));
-                    }
-                    baselinePixels.Add(row);
-                }
-            });
-
-            //List<Point> confirmedMismatches = new List<Point>();
-            //List<Point> processedPixels = new List<Point>();
-            //List<Point> potentialMismatches = new List<Point>();
-
-
-            //int rowMatchCount = 0;
-            //int columnMatchCount = 0;
-            //bool foundMismatchRegion = false;
-            //int mismatchStartX;
-            //int mismatchStartY;
-            //int mismatchWidth;
-            //int mismatchHeight;
-            var analysisProgression = new ImagePixels();
-            ImagePixels mismatchRegion = new ImagePixels();
-            for (int row = 0; row < comparisonPixels.Count; row++)
-            {
-                analysisProgression.Rows.Add(new Row());
-                for (int column = 0; column < comparisonPixels[0].Count; column++)
-                {
-                    analysisProgression.Rows[row].Add(new Pixel(new Rgba32(255, 255, 255), row, column));
-                    //logger.SaveImage(analysisProgression, $"progression{row}-{column}");
-                    if (row >= baselinePixels.Count || baselinePixels[row].Count <= column)
-                    {
-                        // comparisonPixels[row][column].pixel = Color.Magenta;                        
-                    }
-                    else
-                    {
-                        if (ComparePixels(comparisonPixels[row][column], baselinePixels[row][column]))
+                        List<Pixel> row = new List<Pixel>();
+                        Span<Rgba32> pixelRow = comparisonAccessor.GetRowSpan(rowIndex);
+                        scanning.AddRow(pixelRow);
+                        // pixelRow.Length has the same value as accessor.Width,
+                        // but using pixelRow.Length allows the JIT to optimize away bounds checks:
+                        for (int column = 0; column < pixelRow.Length; column++)
                         {
-                            //var pix = comparisonPixels[row][column];
-                            //pix.pixel.A = 100;
-                            //comparisonPixels[row][column] = pix;
-                            //if(foundMismatchRegion && rowMatchCount == rowBuffer && columnMatchCount == columnBuffer)
-                            //{
-                            //    //found end of mismatch
-                            //    foundMismatchRegion = false;
-                            //}
-                            //else
-                            //{
+                            row.Add(new Pixel(pixelRow[column], rowIndex, column));
+                        }
+                        comparisonPixels.Add(row);
+                    }
+                });
+                baseline.ProcessPixelRows(baselineAccessor =>
+                {
+                    for (int rowIndex = 0; rowIndex < baselineAccessor.Height; rowIndex++)
+                    {
+                        List<Pixel> row = new List<Pixel>();
+                        Span<Rgba32> pixelRow = baselineAccessor.GetRowSpan(rowIndex);
 
-                            //    rowMatchCount++;
-                            //}
+                        // pixelRow.Length has the same value as accessor.Width,
+                        // but using pixelRow.Length allows the JIT to optimize away bounds checks:
+                        for (int column = 0; column < pixelRow.Length; column++)
+                        {
+                            row.Add(new Pixel(pixelRow[column], rowIndex, column));
+                        }
+                        baselinePixels.Add(row);
+                    }
+                });
+
+                //List<Point> confirmedMismatches = new List<Point>();
+                //List<Point> processedPixels = new List<Point>();
+                //List<Point> potentialMismatches = new List<Point>();
+
+
+                //int rowMatchCount = 0;
+                //int columnMatchCount = 0;
+                //bool foundMismatchRegion = false;
+                //int mismatchStartX;
+                //int mismatchStartY;
+                //int mismatchWidth;
+                //int mismatchHeight;
+                var analysisProgression = new ImagePixels();
+                ImagePixels mismatchRegion = new ImagePixels();
+                for (int row = 0; row < comparisonPixels.Count; row++)
+                {
+                    analysisProgression.Rows.Add(new Row());
+                    for (int column = 0; column < comparisonPixels[0].Count; column++)
+                    {
+                        analysisProgression.Rows[row].Add(new Pixel(new Rgba32(255, 255, 255), row, column));
+                        //logger.SaveImage(analysisProgression, $"progression{row}-{column}");
+                        if (row >= baselinePixels.Count || baselinePixels[row].Count <= column)
+                        {
+                            // comparisonPixels[row][column].pixel = Color.Magenta;                        
                         }
                         else
                         {
-                            different = true;
-                            //if (!foundMismatchRegion)
-                            //{
-                            //    potentialMismatches = new List<Point>();
-                            //}
-                            //else
-                            //{
-                            //    potentialMismatches.Add(new Point(x,y));
-                            //}
-                            if (!comparisonPixels[row][column].processed)
+                            if (ComparePixels(comparisonPixels[row][column], baselinePixels[row][column]))
                             {
-                                var ImagePixels = IdentifyMismatchBounds2(row, column);
-                                ValidateMismatch(ImagePixels, ImagePixels.Rows[0].Pixels[0].Row, ImagePixels.Rows[0].Pixels[0].Column);
+                                //var pix = comparisonPixels[row][column];
+                                //pix.pixel.A = 100;
+                                //comparisonPixels[row][column] = pix;
+                                //if(foundMismatchRegion && rowMatchCount == rowBuffer && columnMatchCount == columnBuffer)
+                                //{
+                                //    //found end of mismatch
+                                //    foundMismatchRegion = false;
+                                //}
+                                //else
+                                //{
+
+                                //    rowMatchCount++;
+                                //}
                             }
                             else
                             {
+                                different = true;
+                                //if (!foundMismatchRegion)
+                                //{
+                                //    potentialMismatches = new List<Point>();
+                                //}
+                                //else
+                                //{
+                                //    potentialMismatches.Add(new Point(x,y));
+                                //}
+                                if (!comparisonPixels[row][column].processed)
+                                {
+                                    var ImagePixels = IdentifyMismatchBounds2(row, column);
+                                    ValidateMismatch(ImagePixels, ImagePixels.Rows[0].Pixels[0].Row, ImagePixels.Rows[0].Pixels[0].Column);
+                                }
+                                else
+                                {
+                                    var s = "";
+                                }
+                                //comparisonPixels[x][y].pixel = Color.Magenta;
+                            }
+                        }
+                    }
+                }
+
+                //Image<Rgba32> targetImage = new Image<Rgba32>(baseline.Size().Width, baseline.Size().Height);
+                //baseline.ProcessPixelRows(accessor =>
+                //{
+                //    // Color is pixel-agnostic, but it's implicitly convertible to the Rgba32 pixel type
+                //    Rgba32 transparent = Color.Transparent;
+
+                //    for (int y = 0; y < accessor.Height; y++)
+                //    {
+                //        Span<Rgba32> pixelRow = accessor.GetRowSpan(y);
+                //        // pixelRow.Length has the same value as accessor.Width,
+                //        // but using pixelRow.Length allows the JIT to optimize away bounds checks:
+                //        for (int x = 0; x < pixelRow.Length; x++)
+                //        {
+                //            if (ComparePixels(pixelRow[x], comparisonPixels[y][x]))
+                //            {
+                //                ref Rgba32 pixel = ref pixelRow[x];
+                //                //if (pixel.A == 0)
+                //                //{
+                //                // Overwrite the pixel referenced by 'ref Rgba32 pixel':
+                //                pixel.A = 0;
+                //                //}
+                //                //pixel = transparent;
+                //            }
+                //            else
+                //            {
+                //                different = true;
+                //                ref Rgba32 pixel = ref pixelRow[x];
+                //                //if (pixel.A == 0)
+                //                //{
+                //                // Overwrite the pixel referenced by 'ref Rgba32 pixel':
+                //                pixel.R = 255;
+                //            }
+                //        }
+                //    }
+                //});
+                isDifferent = different;
+                comparisonImage.ProcessPixelRows(comparisonAccessor =>
+                {
+                    for (int rowIndex = 0; rowIndex < comparisonAccessor.Height; rowIndex++)
+                    {
+                        Span<Rgba32> pixelRow = comparisonAccessor.GetRowSpan(rowIndex);
+
+                        // pixelRow.Length has the same value as accessor.Width,
+                        // but using pixelRow.Length allows the JIT to optimize away bounds checks:
+                        for (int column = 0; column < pixelRow.Length; column++)
+                        {
+                            if (comparisonPixels[rowIndex][column].isBorderPixel)
+                            {
                                 var s = "";
                             }
-                            //comparisonPixels[x][y].pixel = Color.Magenta;
+                            if (comparisonPixels[rowIndex][column].needsHighlight && !comparisonPixels[rowIndex][column].isBorderPixel)
+                            {
+                                ref Rgba32 pixel = ref pixelRow[column];
+                                pixel = Color.Magenta;
+                            }
+                            else
+                            {
+                                ref Rgba32 pixel = ref pixelRow[column];
+                                pixel.A = 100;
+                            }
                         }
                     }
-                }
-            }
-
-            //Image<Rgba32> targetImage = new Image<Rgba32>(baseline.Size().Width, baseline.Size().Height);
-            //baseline.ProcessPixelRows(accessor =>
-            //{
-            //    // Color is pixel-agnostic, but it's implicitly convertible to the Rgba32 pixel type
-            //    Rgba32 transparent = Color.Transparent;
-
-            //    for (int y = 0; y < accessor.Height; y++)
-            //    {
-            //        Span<Rgba32> pixelRow = accessor.GetRowSpan(y);
-            //        // pixelRow.Length has the same value as accessor.Width,
-            //        // but using pixelRow.Length allows the JIT to optimize away bounds checks:
-            //        for (int x = 0; x < pixelRow.Length; x++)
-            //        {
-            //            if (ComparePixels(pixelRow[x], comparisonPixels[y][x]))
-            //            {
-            //                ref Rgba32 pixel = ref pixelRow[x];
-            //                //if (pixel.A == 0)
-            //                //{
-            //                // Overwrite the pixel referenced by 'ref Rgba32 pixel':
-            //                pixel.A = 0;
-            //                //}
-            //                //pixel = transparent;
-            //            }
-            //            else
-            //            {
-            //                different = true;
-            //                ref Rgba32 pixel = ref pixelRow[x];
-            //                //if (pixel.A == 0)
-            //                //{
-            //                // Overwrite the pixel referenced by 'ref Rgba32 pixel':
-            //                pixel.R = 255;
-            //            }
-            //        }
-            //    }
-            //});
-            isDifferent = different;
-            comparisonImage.ProcessPixelRows(comparisonAccessor =>
+                });
+                return comparisonImage;
+                //baseline.ProcessPixelRows(targetImage, (sourceAccessor, targetAccessor) =>
+                //{
+                //    for (int i = 0; i < baseline.Size().Height; i++)
+                //    {
+                //        int columIndex = 0;
+                //        var span = sourceAccessor.GetRowSpan(i);
+                //        foreach (var pixel in span)
+                //        {
+                //            comparisonImage[200, 200] = Rgba32.White;
+                //            imageBytes.Add(pixel.B);
+                //            imageBytes.Add(pixel.G);
+                //            imageBytes.Add(pixel.R);
+                //            columIndex++;
+                //        }
+                //    }
+                //});
+            }catch(Exception ex)
             {
-                for (int rowIndex = 0; rowIndex < comparisonAccessor.Height; rowIndex++)
-                {
-                    Span<Rgba32> pixelRow = comparisonAccessor.GetRowSpan(rowIndex);
-
-                    // pixelRow.Length has the same value as accessor.Width,
-                    // but using pixelRow.Length allows the JIT to optimize away bounds checks:
-                    for (int column = 0; column < pixelRow.Length; column++)
-                    {
-                        if (comparisonPixels[rowIndex][column].isBorderPixel)
-                        {
-                            var s = "";
-                        }
-                        if (comparisonPixels[rowIndex][column].needsHighlight && !comparisonPixels[rowIndex][column].isBorderPixel)
-                        {
-                            ref Rgba32 pixel = ref pixelRow[column];
-                            pixel = Color.Magenta;
-                        }
-                        else
-                        {
-                            ref Rgba32 pixel = ref pixelRow[column];
-                            pixel.A = 100;
-                        }
-                    }
-                }
-            });
-            return comparisonImage;
-            //baseline.ProcessPixelRows(targetImage, (sourceAccessor, targetAccessor) =>
-            //{
-            //    for (int i = 0; i < baseline.Size().Height; i++)
-            //    {
-            //        int columIndex = 0;
-            //        var span = sourceAccessor.GetRowSpan(i);
-            //        foreach (var pixel in span)
-            //        {
-            //            comparisonImage[200, 200] = Rgba32.White;
-            //            imageBytes.Add(pixel.B);
-            //            imageBytes.Add(pixel.G);
-            //            imageBytes.Add(pixel.R);
-            //            columIndex++;
-            //        }
-            //    }
-            //});
+                var s = "";
+            }
+            isDifferent = true;
+            return null;
         }
 
 
