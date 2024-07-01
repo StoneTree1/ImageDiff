@@ -28,135 +28,178 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-            this.components = new System.ComponentModel.Container();
-            this.btnSelectBaselineFolder = new System.Windows.Forms.Button();
-            this.btnSelectComparisonFolder = new System.Windows.Forms.Button();
-            this.lblBaselineFoilder = new System.Windows.Forms.Label();
-            this.lblComparisonFolder = new System.Windows.Forms.Label();
-            this.pbAlternaitingComparison = new System.Windows.Forms.PictureBox();
-            this.pbCompareResult = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnPerformDiffs = new System.Windows.Forms.Button();
-            this.cmbImagesForReview = new System.Windows.Forms.ComboBox();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.pbAlternaitingComparison)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCompareResult)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // btnSelectBaselineFolder
-            // 
-            this.btnSelectBaselineFolder.Location = new System.Drawing.Point(12, 12);
-            this.btnSelectBaselineFolder.Name = "btnSelectBaselineFolder";
-            this.btnSelectBaselineFolder.Size = new System.Drawing.Size(178, 29);
-            this.btnSelectBaselineFolder.TabIndex = 0;
-            this.btnSelectBaselineFolder.Text = "Select Baseline Folder";
-            this.btnSelectBaselineFolder.UseVisualStyleBackColor = true;
-            this.btnSelectBaselineFolder.Click += new System.EventHandler(this.btnSelectBaselineFolder_Click);
-            // 
-            // btnSelectComparisonFolder
-            // 
-            this.btnSelectComparisonFolder.Location = new System.Drawing.Point(196, 12);
-            this.btnSelectComparisonFolder.Name = "btnSelectComparisonFolder";
-            this.btnSelectComparisonFolder.Size = new System.Drawing.Size(192, 29);
-            this.btnSelectComparisonFolder.TabIndex = 1;
-            this.btnSelectComparisonFolder.Text = "Select Comparison Folder";
-            this.btnSelectComparisonFolder.UseVisualStyleBackColor = true;
-            this.btnSelectComparisonFolder.Click += new System.EventHandler(this.btnSelectComparisonFolder_Click);
-            // 
-            // lblBaselineFoilder
-            // 
-            this.lblBaselineFoilder.AutoSize = true;
-            this.lblBaselineFoilder.Location = new System.Drawing.Point(12, 44);
-            this.lblBaselineFoilder.Name = "lblBaselineFoilder";
-            this.lblBaselineFoilder.Size = new System.Drawing.Size(50, 20);
-            this.lblBaselineFoilder.TabIndex = 2;
-            this.lblBaselineFoilder.Text = "label1";
-            // 
-            // lblComparisonFolder
-            // 
-            this.lblComparisonFolder.AutoSize = true;
-            this.lblComparisonFolder.Location = new System.Drawing.Point(12, 64);
-            this.lblComparisonFolder.Name = "lblComparisonFolder";
-            this.lblComparisonFolder.Size = new System.Drawing.Size(50, 20);
-            this.lblComparisonFolder.TabIndex = 3;
-            this.lblComparisonFolder.Text = "label1";
-            // 
-            // pbAlternaitingComparison
-            // 
-            this.pbAlternaitingComparison.Location = new System.Drawing.Point(12, 117);
-            this.pbAlternaitingComparison.Name = "pbAlternaitingComparison";
-            this.pbAlternaitingComparison.Size = new System.Drawing.Size(833, 1086);
-            this.pbAlternaitingComparison.TabIndex = 4;
-            this.pbAlternaitingComparison.TabStop = false;
-            // 
-            // pbCompareResult
-            // 
-            this.pbCompareResult.Location = new System.Drawing.Point(880, 117);
-            this.pbCompareResult.Name = "pbCompareResult";
-            this.pbCompareResult.Size = new System.Drawing.Size(833, 1086);
-            this.pbCompareResult.TabIndex = 5;
-            this.pbCompareResult.TabStop = false;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnPerformDiffs
-            // 
-            this.btnPerformDiffs.Location = new System.Drawing.Point(394, 12);
-            this.btnPerformDiffs.Name = "btnPerformDiffs";
-            this.btnPerformDiffs.Size = new System.Drawing.Size(192, 29);
-            this.btnPerformDiffs.TabIndex = 6;
-            this.btnPerformDiffs.Text = "Perform Diffs";
-            this.btnPerformDiffs.UseVisualStyleBackColor = true;
-            this.btnPerformDiffs.Click += new System.EventHandler(this.btnPerformDiffs_Click);
-            // 
-            // cmbImagesForReview
-            // 
-            this.cmbImagesForReview.FormattingEnabled = true;
-            this.cmbImagesForReview.Location = new System.Drawing.Point(12, 83);
-            this.cmbImagesForReview.Name = "cmbImagesForReview";
-            this.cmbImagesForReview.Size = new System.Drawing.Size(203, 28);
-            this.cmbImagesForReview.TabIndex = 7;
-            this.cmbImagesForReview.SelectedIndexChanged += new System.EventHandler(this.cmbImagesForReview_SelectedIndexChanged);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(221, 83);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(83, 28);
-            this.btnRefresh.TabIndex = 8;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2306, 1493);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.cmbImagesForReview);
-            this.Controls.Add(this.btnPerformDiffs);
-            this.Controls.Add(this.pbCompareResult);
-            this.Controls.Add(this.pbAlternaitingComparison);
-            this.Controls.Add(this.lblComparisonFolder);
-            this.Controls.Add(this.lblBaselineFoilder);
-            this.Controls.Add(this.btnSelectComparisonFolder);
-            this.Controls.Add(this.btnSelectBaselineFolder);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.pbAlternaitingComparison)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbCompareResult)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+        components = new System.ComponentModel.Container();
+        btnSelectBaselineFolder = new Button();
+        btnSelectComparisonFolder = new Button();
+        lblBaselineFoilder = new Label();
+        lblComparisonFolder = new Label();
+        pbAlternaitingComparison = new PictureBox();
+        pbCompareResult = new PictureBox();
+        timer1 = new System.Windows.Forms.Timer(components);
+        btnPerformDiffs = new Button();
+        cmbImagesForReview = new ComboBox();
+        btnRefresh = new Button();
+        openFileDialog1 = new OpenFileDialog();
+        folderBrowserDialog1 = new FolderBrowserDialog();
+        button1 = new Button();
+        button2 = new Button();
+        button3 = new Button();
+        ((System.ComponentModel.ISupportInitialize)pbAlternaitingComparison).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)pbCompareResult).BeginInit();
+        SuspendLayout();
+        // 
+        // btnSelectBaselineFolder
+        // 
+        btnSelectBaselineFolder.Location = new Point(10, 9);
+        btnSelectBaselineFolder.Margin = new Padding(3, 2, 3, 2);
+        btnSelectBaselineFolder.Name = "btnSelectBaselineFolder";
+        btnSelectBaselineFolder.Size = new Size(156, 22);
+        btnSelectBaselineFolder.TabIndex = 0;
+        btnSelectBaselineFolder.Text = "Select Baseline Folder";
+        btnSelectBaselineFolder.UseVisualStyleBackColor = true;
+        btnSelectBaselineFolder.Click += btnSelectBaselineFolder_Click;
+        // 
+        // btnSelectComparisonFolder
+        // 
+        btnSelectComparisonFolder.Location = new Point(172, 9);
+        btnSelectComparisonFolder.Margin = new Padding(3, 2, 3, 2);
+        btnSelectComparisonFolder.Name = "btnSelectComparisonFolder";
+        btnSelectComparisonFolder.Size = new Size(168, 22);
+        btnSelectComparisonFolder.TabIndex = 1;
+        btnSelectComparisonFolder.Text = "Select Comparison Folder";
+        btnSelectComparisonFolder.UseVisualStyleBackColor = true;
+        btnSelectComparisonFolder.Click += btnSelectComparisonFolder_Click;
+        // 
+        // lblBaselineFoilder
+        // 
+        lblBaselineFoilder.AutoSize = true;
+        lblBaselineFoilder.Location = new Point(10, 33);
+        lblBaselineFoilder.Name = "lblBaselineFoilder";
+        lblBaselineFoilder.Size = new Size(38, 15);
+        lblBaselineFoilder.TabIndex = 2;
+        lblBaselineFoilder.Text = "label1";
+        // 
+        // lblComparisonFolder
+        // 
+        lblComparisonFolder.AutoSize = true;
+        lblComparisonFolder.Location = new Point(10, 48);
+        lblComparisonFolder.Name = "lblComparisonFolder";
+        lblComparisonFolder.Size = new Size(38, 15);
+        lblComparisonFolder.TabIndex = 3;
+        lblComparisonFolder.Text = "label1";
+        // 
+        // pbAlternaitingComparison
+        // 
+        pbAlternaitingComparison.Location = new Point(12, 106);
+        pbAlternaitingComparison.Margin = new Padding(3, 2, 3, 2);
+        pbAlternaitingComparison.Name = "pbAlternaitingComparison";
+        pbAlternaitingComparison.Size = new Size(729, 814);
+        pbAlternaitingComparison.TabIndex = 4;
+        pbAlternaitingComparison.TabStop = false;
+        // 
+        // pbCompareResult
+        // 
+        pbCompareResult.Location = new Point(791, 106);
+        pbCompareResult.Margin = new Padding(3, 2, 3, 2);
+        pbCompareResult.Name = "pbCompareResult";
+        pbCompareResult.Size = new Size(729, 814);
+        pbCompareResult.TabIndex = 5;
+        pbCompareResult.TabStop = false;
+        // 
+        // timer1
+        // 
+        timer1.Tick += timer1_Tick;
+        // 
+        // btnPerformDiffs
+        // 
+        btnPerformDiffs.Location = new Point(345, 9);
+        btnPerformDiffs.Margin = new Padding(3, 2, 3, 2);
+        btnPerformDiffs.Name = "btnPerformDiffs";
+        btnPerformDiffs.Size = new Size(168, 22);
+        btnPerformDiffs.TabIndex = 6;
+        btnPerformDiffs.Text = "Perform Diffs";
+        btnPerformDiffs.UseVisualStyleBackColor = true;
+        btnPerformDiffs.Click += btnPerformDiffs_Click;
+        // 
+        // cmbImagesForReview
+        // 
+        cmbImagesForReview.FormattingEnabled = true;
+        cmbImagesForReview.Location = new Point(10, 62);
+        cmbImagesForReview.Margin = new Padding(3, 2, 3, 2);
+        cmbImagesForReview.Name = "cmbImagesForReview";
+        cmbImagesForReview.Size = new Size(178, 23);
+        cmbImagesForReview.TabIndex = 7;
+        cmbImagesForReview.SelectedIndexChanged += cmbImagesForReview_SelectedIndexChanged;
+        // 
+        // btnRefresh
+        // 
+        btnRefresh.Location = new Point(193, 62);
+        btnRefresh.Margin = new Padding(3, 2, 3, 2);
+        btnRefresh.Name = "btnRefresh";
+        btnRefresh.Size = new Size(73, 21);
+        btnRefresh.TabIndex = 8;
+        btnRefresh.Text = "Refresh";
+        btnRefresh.UseVisualStyleBackColor = true;
+        btnRefresh.Click += btnRefresh_Click;
+        // 
+        // openFileDialog1
+        // 
+        openFileDialog1.FileName = "openFileDialog1";
+        // 
+        // button1
+        // 
+        button1.Location = new Point(519, 8);
+        button1.Name = "button1";
+        button1.Size = new Size(75, 23);
+        button1.TabIndex = 9;
+        button1.Text = "button1";
+        button1.UseVisualStyleBackColor = true;
+        button1.Click += button1_Click;
+        // 
+        // button2
+        // 
+        button2.Location = new Point(600, 8);
+        button2.Name = "button2";
+        button2.Size = new Size(75, 23);
+        button2.TabIndex = 10;
+        button2.Text = "button2";
+        button2.UseVisualStyleBackColor = true;
+        button2.Click += button2_Click;
+        // 
+        // button3
+        // 
+        button3.Location = new Point(681, 8);
+        button3.Name = "button3";
+        button3.Size = new Size(75, 23);
+        button3.TabIndex = 11;
+        button3.Text = "button3";
+        button3.UseVisualStyleBackColor = true;
+        button3.Click += button3_Click;
+        // 
+        // Form1
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(2018, 1066);
+        Controls.Add(button3);
+        Controls.Add(button2);
+        Controls.Add(button1);
+        Controls.Add(btnRefresh);
+        Controls.Add(cmbImagesForReview);
+        Controls.Add(btnPerformDiffs);
+        Controls.Add(pbCompareResult);
+        Controls.Add(pbAlternaitingComparison);
+        Controls.Add(lblComparisonFolder);
+        Controls.Add(lblBaselineFoilder);
+        Controls.Add(btnSelectComparisonFolder);
+        Controls.Add(btnSelectBaselineFolder);
+        Margin = new Padding(3, 2, 3, 2);
+        Name = "Form1";
+        Text = "Form1";
+        ((System.ComponentModel.ISupportInitialize)pbAlternaitingComparison).EndInit();
+        ((System.ComponentModel.ISupportInitialize)pbCompareResult).EndInit();
+        ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -173,4 +216,7 @@ partial class Form1
     private Button btnRefresh;
     private OpenFileDialog openFileDialog1;
     private FolderBrowserDialog folderBrowserDialog1;
+    private Button button1;
+    private Button button2;
+    private Button button3;
 }

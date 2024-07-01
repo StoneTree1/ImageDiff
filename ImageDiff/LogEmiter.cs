@@ -1,6 +1,6 @@
 ﻿namespace ImageDiff
 {
-    internal class LogEmiter
+    public class LogEmiter
     {
         public static EventHandler<LogEventArgs> LoggingEvent;
 

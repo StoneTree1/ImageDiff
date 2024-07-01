@@ -1,6 +1,5 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ImageDiff
 {
@@ -49,6 +48,10 @@ namespace ImageDiff
                     {
                         break;
                     }
+                    if (column >= baselinePixels[row].Count)
+                    {
+                        break;
+                    }
                     if (!ComparePixels(comparisonPixels[row][column], baselinePixels[row][column]))
                     {
                         ToReview.Add(comparisonPixels[row][column]);
@@ -56,6 +59,7 @@ namespace ImageDiff
                 }
             }
             mismatched = NavigateMismatched(mismatched, ToReview, out borderPixels);
+
             Pixel borderPix = borderPixels[0];
             bool allBorderPixelsTheSame = false;
             Dictionary<string, int> counts = new Dictionary<string, int>();
@@ -154,7 +158,10 @@ namespace ImageDiff
                         {
                             break;
                         }
-
+                        if(row>=baselinePixels.Count || column >= baselinePixels[row].Count)
+                        {
+                            break;
+                        }
                         //if (!mismatched.Any(X => X.Column == column && X.Row == row)) {
                         if (!comparisonPixels[row][column].processed)
                         {
@@ -512,18 +519,30 @@ namespace ImageDiff
                 //int mismatchStartY;
                 //int mismatchWidth;
                 //int mismatchHeight;
-                var analysisProgression = new ImagePixels();
+                //var analysisProgression = new ImagePixels();
                 ImagePixels mismatchRegion = new ImagePixels();
                 for (int row = 0; row < comparisonPixels.Count; row++)
                 {
-                    analysisProgression.Rows.Add(new Row());
+                    if (baselinePixels.Count < row)
+                    {
+                        break; //?????
+                    }
+                   // analysisProgression.Rows.Add(new Row());
                     for (int column = 0; column < comparisonPixels[0].Count; column++)
                     {
-                        analysisProgression.Rows[row].Add(new Pixel(new Rgba32(255, 255, 255), row, column));
+                       // analysisProgression.Rows[row].Add(new Pixel(new Rgba32(255, 255, 255), row, column));
                         //logger.SaveImage(analysisProgression, $"progression{row}-{column}");
                         if (row >= baselinePixels.Count || baselinePixels[row].Count <= column)
                         {
-                            // comparisonPixels[row][column].pixel = Color.Magenta;                        
+                            different = true;
+                            //if (!comparisonPixels[row][column].processed)
+                            //{
+                            //    var ImagePixels = IdentifyMismatchBounds2(row, column);
+                            //}
+                            //else
+                            //{
+                            //    var s = "";
+                            //}
                         }
                         else
                         {
@@ -652,6 +671,7 @@ namespace ImageDiff
             }catch(Exception ex)
             {
                 var s = "";
+                //TowerAutomationCore.Logger.Debug($"Error Validating image.\n{ex.Message}\n{ex.StackTrace}");
             }
             isDifferent = true;
             return null;
