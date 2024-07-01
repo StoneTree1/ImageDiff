@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,8 +53,8 @@ namespace ImageComparer
                 var img = image.GetImageFromDiffPixals();
                 //pictureBox1.Height = img.Height;
                 pictureBox1.Image = img;
-               // pictureBox1.Location = new Point(5, 5);
-               
+                // pictureBox1.Location = new Point(5, 5);
+
                 // pictureBox2.Parent = pictureBox1;
                 // pictureBox2.BackColor = Color.Transparent;
                 var duration = DateTime.Now - start;
@@ -69,9 +70,9 @@ namespace ImageComparer
                 image2 = openFileDialog1.FileName;
                 Baseline = new ImageDiff.DiffImage(settings, image2, engine);
                 var img = Baseline.GetImageFromDiffPixals();
-               // pictureBox2.Height = img.Height/2;
+                // pictureBox2.Height = img.Height/2;
                 pictureBox2.Image = img;
-               // pictureBox2.Location = new Point(800, 5);
+                // pictureBox2.Location = new Point(800, 5);
                 //pictureBox2.Parent = pictureBox1;
                 //pictureBox2.BackColor = Color.Transparent;
                 var duration = DateTime.Now - start;
@@ -99,8 +100,8 @@ namespace ImageComparer
                 pictureBox2.Image = img;
                 //pictureBox2.Parent = pictureBox1;
                 //pictureBox2.BackColor = Color.Transparent;
-               // pictureBox1.Location = new Point(12, 87);
-               // pictureBox2.Location = new Point(0, 0);
+                // pictureBox1.Location = new Point(12, 87);
+                // pictureBox2.Location = new Point(0, 0);
             }
         }
 
@@ -112,7 +113,7 @@ namespace ImageComparer
             pictureBox1.Image = result;
             pictureBox1.BackColor = Color.White;
             //pictureBox2.Parent = pictureBox1;
-           // pictureBox2.BackColor = Color.Transparent;
+            // pictureBox2.BackColor = Color.Transparent;
             //pictureBox2.Location = new Point(0, 0);
         }
 
@@ -128,7 +129,7 @@ namespace ImageComparer
             var duration = DateTime.Now - start;
             lblDuration.Text = $"Compare took {duration.TotalMilliseconds} milliseconds";
             resultImage.Save("C:\\tmp\\CompareResult_AreasOfInterest.jpg");
-            pictureBox1.Image= resultImage;
+            pictureBox1.Image = resultImage;
         }
 
         public void CompareTo(DiffImage newImage, DiffImage baselineImage)
@@ -137,7 +138,7 @@ namespace ImageComparer
             foreach (var layout in newImage.AreasOfInterest)
             {
                 var otherLayout = layout.FindClosestMatch(baselineImage.AreasOfInterest);
-                offsets.Add(new Point(otherLayout.Bounds.X1- layout.Bounds.X1, otherLayout.Bounds.Y1- layout.Bounds.Y1));
+                offsets.Add(new Point(otherLayout.Bounds.X1 - layout.Bounds.X1, otherLayout.Bounds.Y1 - layout.Bounds.Y1));
             }
             var query = offsets
            .GroupBy(p => p)
@@ -152,7 +153,7 @@ namespace ImageComparer
                 var otherLayout = layout.FindClosestMatch(baselineImage.AreasOfInterest);
 
                 var matched = newImage.CompareBounds(layout, otherLayout, baselineImage);
-                var newimg = newImage.FastGetImageFromDiffPixals();                
+                var newimg = newImage.FastGetImageFromDiffPixals();
                 var basel = baselineImage.FastGetImageFromDiffPixals();
 
                 using (var graphics = Graphics.FromImage(newimg))
@@ -161,7 +162,7 @@ namespace ImageComparer
                     {
                         Pen redPen = new Pen(System.Drawing.Color.Red, 2);
                         graphics.DrawRectangle(redPen, new System.Drawing.Rectangle(layout.Bounds.X1, layout.Bounds.Y1, layout.Bounds.Width, layout.Bounds.Height));
-                       
+
                     }
                 }
                 pictureBox1.Image = newimg;
@@ -171,7 +172,7 @@ namespace ImageComparer
                     {
                         Pen redPen = new Pen(System.Drawing.Color.Red, 2);
                         graphics.DrawRectangle(redPen, new System.Drawing.Rectangle(otherLayout.Bounds.X1, otherLayout.Bounds.Y1, otherLayout.Bounds.Width, otherLayout.Bounds.Height));
-                        
+
                     }
                 }
                 pictureBox2.Image = basel;
@@ -192,9 +193,9 @@ namespace ImageComparer
                         int count = 1;
                         while (count < 50 && !matched)
                         {
-                            for(int i=0-count; i<count+1; i++)
+                            for (int i = 0 - count; i < count + 1; i++)
                             {
-                                for(int j=count-1; j<count+1; j++)
+                                for (int j = count - 1; j < count + 1; j++)
                                 {
 
                                     if (j == 0 && i == 0) continue;
@@ -210,11 +211,11 @@ namespace ImageComparer
                                     //}
                                     //pictureBox2.Image = basel;
                                     matched = newImage.CompareBoundsWithOffset(layout, otherLayout, baselineImage, new Point(i, j), out matchWeight);
-                                    
+
                                     matchWeights.Add(matchWeight);
-                                    if (matched) 
-                                    { 
-                                        break; 
+                                    if (matched)
+                                    {
+                                        break;
                                     }
                                 }
                                 if (matched)
@@ -240,7 +241,7 @@ namespace ImageComparer
                         {
                             for (int j = 0; j < layout.Bounds.Height; j++)
                             {
-                                newImage.RawImage[j+ layout.Bounds.Y1, i+ layout.Bounds.X1].needsHighlight = true;
+                                newImage.RawImage[j + layout.Bounds.Y1, i + layout.Bounds.X1].needsHighlight = true;
                             }
                         }
                     }
@@ -287,6 +288,28 @@ namespace ImageComparer
                 pictureBox2.Image = basel;
                 this.Refresh();
             }
+        }
+
+        private void btnEdgeDetection_Click(object sender, EventArgs e)
+        {
+            int width = image.RawImage.GetLength(1);
+            int height = image.RawImage.GetLength(0);
+            //image = new ImageDiff.DiffImage(settings, image1);
+            var regions = image.DetectBackgroundRegions();
+            Bitmap saveImage = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            DirectBitmap output = new DirectBitmap(width, height);
+            foreach (var region in regions)
+            {
+                var col = new Random().Next(255);
+                foreach (var pixel in region.region)
+                {
+                    output.SetPixel(pixel.Column, pixel.Row, Color.FromArgb(255, col, col, col));
+
+                }
+            }
+
+            pictureBox1.Image = output.Bitmap;
+
         }
     }
 }

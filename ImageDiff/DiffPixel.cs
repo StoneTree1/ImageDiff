@@ -40,7 +40,7 @@ namespace ImageDiff
             this.needsHighlight = needsHighlight;
         }
 
-        public bool IsMatch(DiffPixel pixel, int threshold = 10)
+        public bool IsMatch(DiffPixel pixel, int threshold = 30)
         {
             if(pixel == null) { return false; }
             var rDif = Math.Abs( pixel.Colour.R - this.Colour.R);

@@ -43,6 +43,7 @@
             txtOffset = new TextBox();
             lblDuration = new Label();
             panel1 = new Panel();
+            btnEdgeDetection = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel1.SuspendLayout();
@@ -50,9 +51,10 @@
             // 
             // btnSelectImage
             // 
-            btnSelectImage.Location = new Point(12, 12);
+            btnSelectImage.Location = new Point(14, 16);
+            btnSelectImage.Margin = new Padding(3, 4, 3, 4);
             btnSelectImage.Name = "btnSelectImage";
-            btnSelectImage.Size = new Size(101, 23);
+            btnSelectImage.Size = new Size(115, 31);
             btnSelectImage.TabIndex = 0;
             btnSelectImage.Text = "Select Image";
             btnSelectImage.UseVisualStyleBackColor = true;
@@ -61,9 +63,9 @@
             // lblImage1
             // 
             lblImage1.AutoSize = true;
-            lblImage1.Location = new Point(119, 16);
+            lblImage1.Location = new Point(136, 21);
             lblImage1.Name = "lblImage1";
-            lblImage1.Size = new Size(43, 15);
+            lblImage1.Size = new Size(54, 20);
             lblImage1.TabIndex = 1;
             lblImage1.Text = "Image:";
             // 
@@ -74,17 +76,18 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(119, 45);
+            label1.Location = new Point(136, 60);
             label1.Name = "label1";
-            label1.Size = new Size(43, 15);
+            label1.Size = new Size(54, 20);
             label1.TabIndex = 3;
             label1.Text = "Image:";
             // 
             // btnSelectBaseline
             // 
-            btnSelectBaseline.Location = new Point(12, 41);
+            btnSelectBaseline.Location = new Point(14, 55);
+            btnSelectBaseline.Margin = new Padding(3, 4, 3, 4);
             btnSelectBaseline.Name = "btnSelectBaseline";
-            btnSelectBaseline.Size = new Size(101, 23);
+            btnSelectBaseline.Size = new Size(115, 31);
             btnSelectBaseline.TabIndex = 2;
             btnSelectBaseline.Text = "Select Baseline";
             btnSelectBaseline.UseVisualStyleBackColor = true;
@@ -92,17 +95,19 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(11, 16);
+            pictureBox1.Location = new Point(13, 21);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(750, 1500);
+            pictureBox1.Size = new Size(857, 2000);
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
             // btnShowAsGreyScale
             // 
-            btnShowAsGreyScale.Location = new Point(209, 12);
+            btnShowAsGreyScale.Location = new Point(239, 16);
+            btnShowAsGreyScale.Margin = new Padding(3, 4, 3, 4);
             btnShowAsGreyScale.Name = "btnShowAsGreyScale";
-            btnShowAsGreyScale.Size = new Size(75, 23);
+            btnShowAsGreyScale.Size = new Size(86, 31);
             btnShowAsGreyScale.TabIndex = 5;
             btnShowAsGreyScale.Text = "ShowGrey";
             btnShowAsGreyScale.UseVisualStyleBackColor = true;
@@ -111,17 +116,19 @@
             // pictureBox2
             // 
             pictureBox2.BackColor = Color.Transparent;
-            pictureBox2.Location = new Point(806, 16);
+            pictureBox2.Location = new Point(921, 21);
+            pictureBox2.Margin = new Padding(3, 4, 3, 4);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(750, 1500);
+            pictureBox2.Size = new Size(857, 2000);
             pictureBox2.TabIndex = 6;
             pictureBox2.TabStop = false;
             // 
             // btnTestTransparency
             // 
-            btnTestTransparency.Location = new Point(290, 12);
+            btnTestTransparency.Location = new Point(331, 16);
+            btnTestTransparency.Margin = new Padding(3, 4, 3, 4);
             btnTestTransparency.Name = "btnTestTransparency";
-            btnTestTransparency.Size = new Size(135, 23);
+            btnTestTransparency.Size = new Size(154, 31);
             btnTestTransparency.TabIndex = 7;
             btnTestTransparency.Text = "Test Transparency";
             btnTestTransparency.UseVisualStyleBackColor = true;
@@ -129,9 +136,10 @@
             // 
             // btnViewSubtraction
             // 
-            btnViewSubtraction.Location = new Point(431, 12);
+            btnViewSubtraction.Location = new Point(493, 16);
+            btnViewSubtraction.Margin = new Padding(3, 4, 3, 4);
             btnViewSubtraction.Name = "btnViewSubtraction";
-            btnViewSubtraction.Size = new Size(107, 23);
+            btnViewSubtraction.Size = new Size(122, 31);
             btnViewSubtraction.TabIndex = 8;
             btnViewSubtraction.Text = "View Subtraction";
             btnViewSubtraction.UseVisualStyleBackColor = true;
@@ -139,9 +147,10 @@
             // 
             // btnDoCompare
             // 
-            btnDoCompare.Location = new Point(544, 12);
+            btnDoCompare.Location = new Point(622, 16);
+            btnDoCompare.Margin = new Padding(3, 4, 3, 4);
             btnDoCompare.Name = "btnDoCompare";
-            btnDoCompare.Size = new Size(87, 23);
+            btnDoCompare.Size = new Size(149, 31);
             btnDoCompare.TabIndex = 9;
             btnDoCompare.Text = "Do Compare";
             btnDoCompare.UseVisualStyleBackColor = true;
@@ -150,26 +159,27 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(431, 38);
+            label2.Location = new Point(493, 51);
             label2.Name = "label2";
-            label2.Size = new Size(39, 15);
+            label2.Size = new Size(49, 20);
             label2.TabIndex = 10;
             label2.Text = "Offset";
             // 
             // txtOffset
             // 
-            txtOffset.Location = new Point(475, 35);
+            txtOffset.Location = new Point(543, 47);
+            txtOffset.Margin = new Padding(3, 4, 3, 4);
             txtOffset.Name = "txtOffset";
-            txtOffset.Size = new Size(50, 23);
+            txtOffset.Size = new Size(57, 27);
             txtOffset.TabIndex = 11;
             txtOffset.Text = "0,0";
             // 
             // lblDuration
             // 
             lblDuration.AutoSize = true;
-            lblDuration.Location = new Point(12, 69);
+            lblDuration.Location = new Point(14, 92);
             lblDuration.Name = "lblDuration";
-            lblDuration.Size = new Size(0, 15);
+            lblDuration.Size = new Size(0, 20);
             lblDuration.TabIndex = 12;
             // 
             // panel1
@@ -177,17 +187,29 @@
             panel1.AutoScroll = true;
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(pictureBox2);
-            panel1.Location = new Point(12, 87);
+            panel1.Location = new Point(14, 116);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1760, 1700);
+            panel1.Size = new Size(2011, 2267);
             panel1.TabIndex = 13;
+            // 
+            // btnEdgeDetection
+            // 
+            btnEdgeDetection.Location = new Point(777, 17);
+            btnEdgeDetection.Name = "btnEdgeDetection";
+            btnEdgeDetection.Size = new Size(139, 29);
+            btnEdgeDetection.TabIndex = 14;
+            btnEdgeDetection.Text = "EdgeDeteection";
+            btnEdgeDetection.UseVisualStyleBackColor = true;
+            btnEdgeDetection.Click += btnEdgeDetection_Click;
             // 
             // ImageProcessingForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(1801, 1061);
+            ClientSize = new Size(1924, 1055);
+            Controls.Add(btnEdgeDetection);
             Controls.Add(panel1);
             Controls.Add(lblDuration);
             Controls.Add(txtOffset);
@@ -200,6 +222,7 @@
             Controls.Add(btnSelectBaseline);
             Controls.Add(lblImage1);
             Controls.Add(btnSelectImage);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ImageProcessingForm";
             Text = "ImageProcessingForm";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -226,5 +249,6 @@
         private TextBox txtOffset;
         private Label lblDuration;
         private Panel panel1;
+        private Button btnEdgeDetection;
     }
 }

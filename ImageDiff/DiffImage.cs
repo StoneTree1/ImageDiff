@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using Tesseract;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace ImageDiff
 {
@@ -661,5 +662,39 @@ namespace ImageDiff
             return output.Bitmap;
 
         }
+
+        public List<BackgroundRegion> DetectBackgroundRegions()
+        {
+            int width = RawImage.GetLength(1);
+            int height = RawImage.GetLength(0);
+            //create object Region to store pixels and some metadata (width height)
+            List<BackgroundRegion> regions = new List<BackgroundRegion>();
+            //List<Pixel> region = new List<Pixel>();
+
+            for (int i = 0;i<width; i++)
+            {
+                for (int j = 0;j < height; j++)
+                {
+                    if (RawImage[j, i].isBorderPixel && !RawImage[i, j].processed)
+                    {
+                        var region = new BackgroundRegion();
+                        region.ScanFrom(RawImage[j, i], RawImage);
+                        regions.Add(region);
+                    }
+                }
+            }
+            return regions;
+            //for()
+            //foreach row
+            //foreach column
+            //scan sourrunding pixels
+                //foreach sourrunding pixel that is background and is acolour match
+                //add to set
+                //Set pixel as processed
+            //foreach pixel found sourrounding,
+            ////recurrsively scan their borders for unprocessed border pixels
+        }
+
+        
     }
 }
