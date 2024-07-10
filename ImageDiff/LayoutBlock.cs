@@ -22,12 +22,12 @@ namespace ImageDiff
                 return blocks.First(x=> x.Bounds.Equals( Bounds));
             }
             double currentScore = 0;
-            var thisLoction = new Point(Bounds.X2, Bounds.Y2);
             var thisSize = Bounds.Width*Bounds.Height;
             var ClosestMatch = blocks[0];
 
             foreach (LayoutBlock block in blocks)
             {
+                var textScore = GetTextScore(block.Text);
                 var xs = (block.Bounds.X1 - Bounds.X1)* (block.Bounds.X1 - Bounds.X1);
                 var ys=(block.Bounds.Y1 -Bounds.Y1)* (block.Bounds.Y1 -Bounds.Y1);
                 var dist = Math.Sqrt(xs + ys);
@@ -60,15 +60,59 @@ namespace ImageDiff
                 {
                     sizeScore = 90;
                 }
-                var score = (100 / dist) * sizeScore;
+                var score = ((100 / dist) * sizeScore)+textScore;
                 if (score > currentScore)
                 {
                     currentScore = score;
                     ClosestMatch = block;
                 }
             }
-
             return ClosestMatch;
+        }
+
+        private int GetTextScore(string blockText)
+        {
+            int score = 1000;
+            if(blockText == Text)
+            {
+                return 100000;
+            }
+            var thisWords = Text.Split(' ');
+            var blockWords = blockText.Split(" ");
+
+            var countDiff = Math.Abs(thisWords.Length - blockWords.Length);
+            if (countDiff != 0)
+            {
+                double dd = (1 - ((double)countDiff / thisWords.Length));
+                if (dd < 0.5)
+                {
+                    return 0;
+                }
+                score = (int)(score * dd);
+            }
+            double matches = 0;
+            for(int i=0; i < thisWords.Length; i++)
+            {
+                int start = i - 3;
+                int end = i + 3;
+                if (start < 0) start = 0;
+                if(end >=blockWords.Length) end = blockWords.Length-1;
+                bool found = false;
+                for(int j=start; j < end; j++)
+                {
+                    if (thisWords[i] == blockWords[j])
+                    {
+                        found = true; 
+                        break;
+                    }
+                }
+                if(found)  
+                {
+                    matches++;
+                }
+            }
+            double matchPercenatge = matches/thisWords.Length;
+            return (int)(score*matchPercenatge);
         }
     }
 }

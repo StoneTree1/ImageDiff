@@ -42,6 +42,11 @@ namespace ImageDiff
             return result;
         }
 
+        public void Save(string path)
+        {
+            Bitmap.Save(path);
+        }
+
         public void Dispose()
         {
             if (Disposed) return;

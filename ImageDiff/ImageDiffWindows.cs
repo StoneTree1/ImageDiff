@@ -1986,22 +1986,22 @@ namespace ImageDiff
         }
            
 
-        private bool ComparePixels(WindowsPixel basepix, WindowsPixel other)
-        {
-            try
-            {
-                if (basepix.Colour == other.Colour)
-                {
-                    outputImage[basepix.Row, basepix.Column].isDifferent = false;
-                    return true;
-                }
-                outputImage[basepix.Row, basepix.Column].isDifferent = true;
-            }catch(Exception ex)
-            {
-                var d = "";
-            }
-            return false;
-        }
+        //private bool ComparePixels(WindowsPixel basepix, WindowsPixel other)
+        //{
+        //    try
+        //    {
+        //        if (basepix.Colour == other.Colour)
+        //        {
+        //            outputImage[basepix.Row, basepix.Column].isDifferent = false;
+        //            return true;
+        //        }
+        //        outputImage[basepix.Row, basepix.Column].isDifferent = true;
+        //    }catch(Exception ex)
+        //    {
+        //        var d = "";
+        //    }
+        //    return false;
+        //}
 
         private bool CompareBorderPixels(WindowsPixel basepix, Color other)
         {

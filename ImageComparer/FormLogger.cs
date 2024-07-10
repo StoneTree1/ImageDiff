@@ -32,7 +32,7 @@ namespace ImageComparer
         {
             if (Debugger.IsAttached)
             {
-                File.AppendAllText("C:\\tmp\\ImageLogging.txt", $"\n{args.Message}");
+                //File.AppendAllText("C:\\tmp\\ImageLogging.txt", $"\n{args.Message}");
             }
         }
     }

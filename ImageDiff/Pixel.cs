@@ -16,6 +16,10 @@ namespace ImageDiff
         public bool isDifferent;
         public int Row;
         public int Column;
+        public bool IsMoved;
+        public bool IsBackgroundPixel;
+        public bool IsImagePixel;
+
 
         public Pixel(Rgba32 pixel, int row, int column, bool processed=false, bool needsHighlight=false)
         {

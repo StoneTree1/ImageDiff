@@ -28,7 +28,7 @@ namespace ImageDiff
 
         public bool ContainsImage(ImagePixels otherImage)
         {
-            Logger.Log("Checking for image movement");
+            FileLogger.Log("Checking for image movement");
             if (otherImage.Rows.Count > Rows.Count)
             {
                 return false;
@@ -50,10 +50,10 @@ namespace ImageDiff
                         var s = "";
                     }
                     index++;
-                    Logger.Log($"Checking Row {i}\n");
+                    FileLogger.Log($"Checking Row {i}\n");
                     if (Rows[i].ContainsSequence(row))
                     {
-                        Logger.Log($"Row {i} matched\n");
+                        FileLogger.Log($"Row {i} matched\n");
                         matchedRows++;
                         indexLastMatched = i+1;
                         rowMatched = true;
@@ -61,7 +61,7 @@ namespace ImageDiff
                     }
                     else
                     {
-                        Logger.Log($"Row {i} did not match\n");
+                        FileLogger.Log($"Row {i} did not match\n");
                     }
                 }
                 if (!rowMatched)

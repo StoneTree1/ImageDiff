@@ -14,8 +14,8 @@ namespace ImageDiff
         public bool processed;
         public bool needsHighlight;
         public bool isDifferent;
-        public int Row;
-        public int Column;
+        //public int Row;
+        //public int Column;
         public bool IsMoved;
         public bool IsBackgroundPixel;
         public bool IsImagePixel;
@@ -23,8 +23,8 @@ namespace ImageDiff
 
         public DiffPixel(Colour col, int row, int column, bool processed = false, bool needsHighlight = false)
         {
-            Row = row;
-            Column = column;
+           // Row = row;
+           // Column = column;
             //this.pixel = pixel;
             Colour = col;
             this.processed = processed;
@@ -32,15 +32,15 @@ namespace ImageDiff
         }
         public DiffPixel(byte r, byte g, byte b, int row, int column, bool processed=false, bool needsHighlight=false)
         {
-            Row = row;
-            Column = column;
+            //Row = row;
+           // Column = column;
             //this.pixel = pixel;
             Colour= new Colour() { R = r, G = g, B = b };
             this.processed = processed;
             this.needsHighlight = needsHighlight;
         }
 
-        public bool IsMatch(DiffPixel pixel, int threshold = 30)
+        public bool IsMatch(DiffPixel pixel, int threshold = 50)
         {
             if(pixel == null) { return false; }
             var rDif = Math.Abs( pixel.Colour.R - this.Colour.R);

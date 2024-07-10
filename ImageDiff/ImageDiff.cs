@@ -16,7 +16,7 @@ namespace ImageDiff
         public int rowBuffer = 10;
         public int columnBuffer = 10;
         public int traversalBorder = 2;
-        public Logger logger;
+        public FileLogger logger;
         public ImagePixels scanning;
         bool LoggingOn = false;
         string currentScannerImage = "";
@@ -465,6 +465,7 @@ namespace ImageDiff
         {
             try
             {
+                List<Difference>differences = new List<Difference>();
                 comparisonPixels = new List<List<Pixel>>();
                 baselinePixels = new List<List<Pixel>>();
                 bool LoggingOn = false;

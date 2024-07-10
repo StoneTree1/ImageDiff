@@ -359,8 +359,8 @@ public partial class Form1 : Form
 
         var img = new DiffImage(settings, testImage);
         img.DetectAreasOfInterestUsingTesseract(engine, testImage);
-
-        img.CompareTo(basel);
+        List<Difference> differences;
+        img.CompareTo(basel, out differences);
         //using (var engine = new TesseractEngine("C:\\tmp\\tessdata", "eng", EngineMode.Default))
         //{
         

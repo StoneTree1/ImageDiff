@@ -25,7 +25,7 @@ namespace ImageDiff
         {
             if(sequence.Pixels.Count>Pixels.Count)
             {
-                Logger.Log($"Checking Row failed due to sequence being longer than row\n");
+                FileLogger.Log($"Checking Row failed due to sequence being longer than row\n");
                 return false;
             }
             int index = 0;
@@ -42,13 +42,13 @@ namespace ImageDiff
                 {
                     //if (sequence.Pixels.Count-i < 0)
                     //{
-                    Logger.Log($"Row does not contain sequence\n");
+                    FileLogger.Log($"Row does not contain sequence\n");
                     return false;
                 }
                 int count = 0;
                 for(int j=0; j<sequence.Pixels.Count; j++)
                 {
-                    Logger.Log($"Checking pixel {i} vs {j}");
+                    FileLogger.Log($"Checking pixel {i} vs {j}");
                     count++;
                     if (Pixels.Count > i + j)
                     {
@@ -58,14 +58,14 @@ namespace ImageDiff
                         }
                         if (!Pixels[i + j].IsMatch(sequence.Pixels[j]))
                         {
-                            Logger.Log($"Not matched. MatchCount: {count}\n");
+                            FileLogger.Log($"Not matched. MatchCount: {count}\n");
 
                             mismatched = true;
                             break;
                         }
                         else
                         {
-                            Logger.Log($"matched\n");
+                            FileLogger.Log($"matched\n");
                             var s = "";
                         }
                     }

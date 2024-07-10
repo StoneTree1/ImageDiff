@@ -17,7 +17,7 @@ using System.Drawing;
 
 namespace ImageDiff
 {
-    public class Logger
+    public class FileLogger
     {
        // public static MediaOutput videoBuilder;
         //public static string videoFilePath;
@@ -36,7 +36,8 @@ namespace ImageDiff
 
         public static void Log(string text)
         {
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //File.AppendAllText("C:\\tmp\\ImageLogging.txt", $"\n{text}");
+           // var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             //File.AppendAllText($"{path}\\CompareResults\\log.txt", text);
         }
 
