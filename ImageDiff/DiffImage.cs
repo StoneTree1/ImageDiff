@@ -741,9 +741,17 @@ namespace ImageDiff
                 {
                     var d = "";
                 }
-                var max = differences.Max();
-                var min = differences.Min();
-                var average = differences.Average();
+
+                var max = 0;
+                var min = 0;
+                double average = 0;
+                if (differences.Count > 0)
+                {
+                    max = differences.Max();
+                    min = differences.Min();
+                    average = differences.Average();
+                }
+                 
                 matchWeight = (double)matchedCount / checkedCount;
                 if (matchWeight >= threshold)
                 {
