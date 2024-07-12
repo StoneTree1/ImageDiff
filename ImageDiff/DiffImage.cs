@@ -84,14 +84,14 @@ namespace ImageDiff
         }
 
         public void LoadFromFile(string fileName) {
-            Bitmap image = (Bitmap)Bitmap.FromFile(fileName);
+            Bitmap image = Image.FromFile(fileName) as Bitmap;
             RawImage = ProcessPixels(image);
             PreProcessImage();
             image.Dispose();
         }
         public void LoadFromFile(string fileName, TesseractEngine engine)
         {
-            Bitmap image = (Bitmap)Bitmap.FromFile(fileName);
+            Bitmap image = Image.FromFile(fileName) as Bitmap;
             RawImage = ProcessPixels(image);
             //PreProcessImage();
             DetectAreasOfInterestUsingTesseract(engine, fileName);
@@ -955,11 +955,14 @@ namespace ImageDiff
             {
                 for (int j = 0;j < height; j++)
                 {
-                    if (RawImage[j, i].IsBackgroundPixel && !RawImage[j,i].processed)
+                    if (RawImage[j, i].isBorderPixel )
                     {
-                        var region = new BackgroundRegion(RawImage);
-                        region.ScanFrom(RawImage[j, i], i, j);
-                        regions.Add(region);
+                        if (!RawImage[i, j].processed)
+                        {
+                            var region = new BackgroundRegion();
+                            region.ScanFrom(RawImage[j, i].Location, RawImage);
+                            regions.Add(region);
+                        }
                     }
                 }
             }

@@ -21,6 +21,7 @@ using Windows.Devices.PointOfService.Provider;
 using Windows.Foundation.Diagnostics;
 using Windows.System.UserProfile;
 using CompareSettings = ImageDiff.CompareSettings;
+using ImageDiff.MultiPlatform;
 
 namespace ImageComparer
 {
@@ -571,7 +572,7 @@ namespace ImageComparer
             proc1.WorkingDirectory = "C:\\Dev\\ImageProcessing\\9d1bb736-811b-4b42-b90f-85ce9e440e1b";
             proc1.FileName = $"C:\\Dev\\ImageProcessing\\9d1bb736-811b-4b42-b90f-85ce9e440e1b\\ImageDiffConsole.exe";
 
-           // proc1.FileName = @"ImageDiffConsole.exe";
+            // proc1.FileName = @"ImageDiffConsole.exe";
             proc1.Arguments = $"newImage=C:\\QATools\\ImgDiff\\6d3c07e4-cd2e-4840-ae46-41099fe60c1b.png " +
                 $"baseline=C:\\QATools\\ImgDiff\\df4e972b-3b58-450f-8047-3db73ccdea1d.png " +
                 $"tesseractPath=C:\\Dev\\ImageProcessing\\9d1bb736-811b-4b42-b90f-85ce9e440e1b\\tessdata " +
@@ -584,6 +585,19 @@ namespace ImageComparer
             string output = p.StandardOutput.ReadToEnd();
             p.WaitForExit();
             var lines = JsonConvert.DeserializeObject<CompareResult>(output);
+        }
+
+        private void btnCompareWithComparableImage_Click(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+            var newImage = new ComparableImage(settings, image1, engine);
+            var baseleinImage = new ComparableImage(settings, image2, engine);
+            List<Difference> differences = new List<Difference>();
+            var resultImage = newImage.CompareTo(baseleinImage, out differences);
+            resultImage.Save("C:\\tmp\\MultiPlatformResult.png");
+
+            this.ResumeLayout();
+
         }
     }
 }

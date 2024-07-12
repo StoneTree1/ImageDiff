@@ -25,4 +25,13 @@
     <ProjectReference Include="..\ImageDiff\ImageDiff.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\WordpressImage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\WordpressImage_headless.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
