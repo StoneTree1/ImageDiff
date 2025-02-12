@@ -22,6 +22,8 @@ using Windows.Foundation.Diagnostics;
 using Windows.System.UserProfile;
 using CompareSettings = ImageDiff.CompareSettings;
 using ImageDiff.MultiPlatform;
+using WebpageScreenshot;
+using DeepSeekCompare;
 
 namespace ImageComparer
 {
@@ -154,23 +156,51 @@ namespace ImageComparer
 
         private void btnDoCompare_Click(object sender, EventArgs e)
         {
+
+            var comparisonImage = File.ReadAllBytes(image1);
+            var baselineImage = File.ReadAllBytes(image2);
+            bool isDifferent = false;
+
+            var compy = new DeepSeekCompare.ImageComparer();
+            var (diffImage1, jsonResult1) = compy.Compare(comparisonImage, baselineImage);
+            File.WriteAllText("differences1.json", JsonConvert.SerializeObject(jsonResult1, Formatting.Indented));
+            File.WriteAllBytes("outputImage1.jpg", diffImage1);
+
+
+
+            WebpageScreenshotComparer comp = new WebpageScreenshotComparer();
+            var (diffImage, jsonResult) = WebpageScreenshotComparer.CompareScreenshots(comparisonImage, baselineImage);// comp.CompareScreenshots(comparisonImage, baselineImage);
+
+            // Save highlighted differences as a JPEG
+
+            // Save JSON output
+            File.WriteAllText("differences.json", JsonConvert.SerializeObject(jsonResult, Formatting.Indented));
+            File.WriteAllBytes("outputImage.json", diffImage);
+
+
             this.SuspendLayout();
+            var newImage = new DiffImage(settings, image1, engine);
+            var baseleinImage = new DiffImage(settings, image2, engine);
+            List<Difference> differences = new List<Difference>();
+            var resultImage = newImage.CompareTo(baseleinImage, out differences);
+            resultImage.Save("C:\\tmp\\WindowsResult.png");
+           
 
-            int width = image.RawImage.GetLength(1);
-            int height = image.RawImage.GetLength(0);
+            //int width = image.RawImage.GetLength(1);
+            //int height = image.RawImage.GetLength(0);
 
-            int blwidth = Baseline.RawImage.GetLength(1);
-            int blheight = Baseline.RawImage.GetLength(0);
+            //int blwidth = Baseline.RawImage.GetLength(1);
+            //int blheight = Baseline.RawImage.GetLength(0);
 
-            if (blwidth != width)
-            {
-                //var iuumg = ScaleImageToWidth(image.GetImage(), blwidth);
-                //image = new ImageDiff.DiffImage(settings, iuumg, engine);
-                //var img = image.GetImageFromDiffPixals();
-                //pictureBox1.Image = img;
-            }
+            //if (blwidth != width)
+            //{
+            //    //var iuumg = ScaleImageToWidth(image.GetImage(), blwidth);
+            //    //image = new ImageDiff.DiffImage(settings, iuumg, engine);
+            //    //var img = image.GetImageFromDiffPixals();
+            //    //pictureBox1.Image = img;
+            //}
 
-            CompareTo(image, Baseline);
+            //CompareTo(image, Baseline);
 
             this.ResumeLayout();
 
