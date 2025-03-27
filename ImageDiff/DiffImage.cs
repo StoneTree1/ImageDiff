@@ -4,7 +4,6 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using Tesseract;
-using static ImageDiff.Difference;
 using System.Diagnostics;
 
 namespace ImageDiff
@@ -597,7 +596,8 @@ namespace ImageDiff
                             {
                                 if (j == 0 && i == 0) continue;
                                 var matchWeight = 0.0;
-                                matched = CompareBoundsWithOffset(layout, otherLayout, ref baselineImage, new Point(i, j), out matchWeight);
+                                //matched = CompareBoundsWithOffset(layout, otherLayout, ref baselineImage, new Point(i, j), out matchWeight);
+                                matched = CompareBoundsWithOffset(layout, otherLayout, ref baselineImage, new Point(-i, -j), out matchWeight);
 
                                 matchWeights.Add(matchWeight);
                                 if (matched)
@@ -714,25 +714,37 @@ namespace ImageDiff
                     for (int j = 0; j < thisLocation.Bounds.Height; j++)
                     {
                         if (RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1].IsBackgroundPixel) { continue; }
-                        if (j + offest.Y+ thisLocation.Bounds.Y1 >= otherHeight) { break; }//break;??
-                        checkedCount++;
-                        var thisPixel = RawImage[j+ thisLocation.Bounds.Y1, i+ thisLocation.Bounds.X1];
-                        var otherPixel = otherImage.RawImage[j+ otherLocation.Bounds.Y1 + offest.Y, i + otherLocation.Bounds.X1+ offest.X];
-                        var thisGrey = thisPixel.Colour.AsGrey();
-                        var otherGrey = otherPixel.Colour.AsGrey();
-                        var diff = Math.Abs(thisGrey - otherGrey);
-                        differences.Add(diff);
-                        if (diff < 50)
+                        if (j + offest.Y + otherLocation.Bounds.Y1 >= otherHeight) { break; }//break;??
+                        if (i + offest.X + otherLocation.Bounds.X1 >= otherWidth) { break; }//break;??
+                        var checkHeight = 0;
+                        var checkWidth = 0;
+                        //temp try
+                        try
                         {
-                            greymatchedCount++;
-                        }
-                        if (thisPixel.IsMatch(otherPixel))
+                            checkWidth = i + otherLocation.Bounds.X1 + offest.X;
+                            checkHeight = j + otherLocation.Bounds.Y1 + offest.Y;
+                            checkedCount++;
+                            var thisPixel = RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1];
+                            var otherPixel = otherImage.RawImage[j + otherLocation.Bounds.Y1 + offest.Y, i + otherLocation.Bounds.X1 + offest.X];
+                            var thisGrey = thisPixel.Colour.AsGrey();
+                            var otherGrey = otherPixel.Colour.AsGrey();
+                            var diff = Math.Abs(thisGrey - otherGrey);
+                            differences.Add(diff);
+                            if (diff < 50)
+                            {
+                                greymatchedCount++;
+                            }
+                            if (thisPixel.IsMatch(otherPixel))
+                            {
+                                matchedCount++;
+                            }
+                            else
+                            {
+                                var m = "";
+                            }
+                        }catch(Exception ecx)
                         {
-                            matchedCount++;
-                        }
-                        else
-                        {
-                            var m = "";
+                            var s = "caught";
                         }
                     }
                 }
@@ -843,14 +855,9 @@ namespace ImageDiff
                     }
                     for (int j = 0; j < thisLocation.Bounds.Height; j++)
                     {
-                        if (RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1].IsBackgroundPixel) 
-                        { 
-                            continue; 
-                        }
-                        if (j +  thisLocation.Bounds.Y1 >= otherHeight) 
-                        { 
-                            break; 
-                        }//break;??
+                        if (RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1].IsBackgroundPixel) { continue; }
+                        if (j + otherLocation.Bounds.Y1 >= otherHeight) {  break; }
+                        if (i + otherLocation.Bounds.X1 >= otherWidth){ break; }
                         checkedCount++;
                         var thisPixel = RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1];
                         var otherPixel = otherImage.RawImage[j + otherLocation.Bounds.Y1, i + otherLocation.Bounds.X1];
@@ -894,6 +901,11 @@ namespace ImageDiff
                                         {
                                             break;
                                         }//break;??
+
+                                        if (i + otherLocation.Bounds.X1 >= otherWidth)
+                                        {
+                                            break;
+                                        }
                                         checkedCount++;
                                         var thisPixel = RawImage[j + thisLocation.Bounds.Y1, i + thisLocation.Bounds.X1];
                                         var otherPixel = otherImage.RawImage[j + otherLocation.Bounds.Y1, i + otherLocation.Bounds.X1];

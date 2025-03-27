@@ -2,7 +2,7 @@
   "profiles": {
     "ImageDiffConsole": {
       "commandName": "Project",
-      "commandLineArgs": "newImage=C:\\QATools\\ImgDiff\\edf160be-9344-4535-9f06-5b5ddac99f57.png\r\nbaseline=C:\\QATools\\ImgDiff\\3c0e996e-b670-4536-9642-3f1e8c1110da.png\r\ntesseractPath=C:\\Dev\\ImageProcessing\\9d1bb736-811b-4b42-b90f-85ce9e440e1b\\tessdata\r\nSearchHeight=60 \r\nSearchWidth=60 \r\nPixelThreshold=50 \r\nBlockWidth=30 \r\nBlockHeight=15 \r\nImageDetectionThreshold=80\r\nOutputPath=C:\\QATools\\ImgDiff"
+      "commandLineArgs": "newImage=C:\\Dev\\ImgDiff\\2fb90d81-078f-4f09-9c8f-2ce35de356d1.png\nbaseline=C:\\Dev\\ImgDiff\\1244cf7f-47c8-4143-a858-ffd0f5dd9878.png\r\ntesseractPath=C:\\Dev\\ImgDiff\\tessdata \r\nSearchHeight=60 \r\nSearchWidth=60 \r\nPixelThreshold=20 \r\nBlockWidth=15 \r\nBlockHeight=15 \r\nImageDetectionThreshold=80 \r\nOutputPath=C:\\Dev\\ImgDiff \r\nUseComparableImage=true"
     }
   }
 }

@@ -15,6 +15,7 @@ namespace ImageDiff
         public int BlockWidth { get; set; }
         public int BlockHeight { get; set; }
         public double ImageDetectionThreshold { get; set; }
+        public bool UseComparableImage { get; set; }
     }
 
     public enum CompareType

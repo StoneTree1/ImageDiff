@@ -4,18 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using ImageDiff;
 using ImageDiffConsole;
-using ImageMagick;
+//using ImageMagick;
 using Newtonsoft.Json;
-using NReco.VideoConverter;
 using Tesseract;
 using Windows.Devices.PointOfService.Provider;
 using Windows.Foundation.Diagnostics;
@@ -314,7 +307,8 @@ namespace ImageComparer
                         //this.Refresh();
 
                         var matchWeight = 0.0;
-                        var offset = new Point(locationToCheck.X - otherLayout.Bounds.X1, locationToCheck.Y - otherLayout.Bounds.Y1);
+                        //var offset = new Point(locationToCheck.X - otherLayout.Bounds.X1, locationToCheck.Y - otherLayout.Bounds.Y1);
+                        var offset = new Point(otherLayout.Bounds.X1- locationToCheck.X, otherLayout.Bounds.Y1- locationToCheck.Y);
                         matched = newImage.CompareBoundsWithOffset(layout, otherLayout, ref baselineImage, offset, out matchWeight);
 
                         matchWeights.Add(matchWeight);
@@ -619,14 +613,15 @@ namespace ImageComparer
 
         private void btnCompareWithComparableImage_Click(object sender, EventArgs e)
         {
-            this.SuspendLayout();
-            var newImage = new ComparableImage(settings, image1, engine);
-            var baseleinImage = new ComparableImage(settings, image2, engine);
-            List<Difference> differences = new List<Difference>();
-            var resultImage = newImage.CompareTo(baseleinImage, out differences);
-            resultImage.Save("C:\\tmp\\MultiPlatformResult.png");
-
-            this.ResumeLayout();
+            //this.SuspendLayout();
+            //var newImage = new ComparableImageV2(settings, image1, engine);
+            //var baseleinImage = new ComparableImageV2(settings, image2, engine);
+            //List<ImageDiff.MultiPlatform.Difference> differences = new List<ImageDiff.MultiPlatform.Difference>();
+            //var resultImage = newImage.CompareTo(baseleinImage, out differences);
+            //var stream = new MemoryStream();
+            //resultImage.Save(stream, resultImage.Metadata.DecodedImageFormat);
+            //File.WriteAllBytes("C:\\tmp\\MultiPlatformResult.png", stream.ToArray());
+            //this.ResumeLayout();
 
         }
     }

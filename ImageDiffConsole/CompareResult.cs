@@ -8,7 +8,8 @@ namespace ImageDiffConsole
 {
     public class CompareResult
     {
-        public string ResultFile { get; set; }
+        public string? ResultFile { get; set; }
+        public string? Error { get; set; }
         public bool IsDifferent { get; set; }
     }
 }

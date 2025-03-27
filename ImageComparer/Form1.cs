@@ -1,5 +1,5 @@
 using ImageDiff;
-
+using ImageDiff.MultiPlatform;
 using SixLabors.ImageSharp;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -359,7 +359,7 @@ public partial class Form1 : Form
 
         var img = new DiffImage(settings, testImage);
         img.DetectAreasOfInterestUsingTesseract(engine, testImage);
-        List<Difference> differences;
+        List<ImageDiff.Difference> differences;
         img.CompareTo(basel, out differences);
         //using (var engine = new TesseractEngine("C:\\tmp\\tessdata", "eng", EngineMode.Default))
         //{
